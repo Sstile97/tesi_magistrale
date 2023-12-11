@@ -181,6 +181,117 @@ Unlike compensatory algorithms such as regression and random forests, decision t
 """
 
 html_data = "prova prova prova prova prova"
+html_create = """
+ <!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Mia Pagina Web</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+        }
+
+        nav {
+            background-color: #444;
+            text-align: center;
+            padding: 10px;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        main {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        footer {
+            text-align: center;
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+        }
+
+        /* Aggiunta dello stile per il box con il pulsante "Create" */
+        .create-box {
+            background-color: #e6e6e6;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+
+        .create-button {
+            display: block;
+            margin: 10px auto;
+            padding: 10px 20px;
+            background-color: #4caf50;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Benvenuto su Shiny FFTrees!</h1>
+    </header>
+
+    <nav>
+        <a href="#">Home</a>
+    </nav>
+
+    <main>
+        <h2>Informazioni sul sito</h2>
+        <p>Shiny FFTrees è un'applicazione Shiny che ti consente di creare alberi decisionali veloci e frugali (FFT) utilizzando il pacchetto FFTrees Python in un browser web. L'app è un complemento al seguente articolo:</p>
+        <li>Phillips, N, D., Neth, Hansjörg, Woike, J. K., & Gaissmaier, W. (2017). FFTrees: A FFTrees: A toolbox to create, visualize, and evaluate fast-and-frugal decision trees. Judgment and Decision Making, 12(4), 344-368.</li>
+    </main>
+
+    <main>
+        <h2>Come utilizzarlo</h2>
+        <p>Si consiglia di navigare su questo sito utilizzando le schede dell'intestazione nell'ordine seguente:</p>
+        <li>Dati: Seleziona un set di dati e un criterio binario</li>
+        <li>Crea: Crea FFT, sia con un algoritmo incorporato, sia manualmente.</li>
+        <li>Visualizza: Traccia FFT insieme a statistiche di accuratezza</li>
+    </main>
+
+    <main>
+        <h2>Contatto </h2>
+        <p>Questo sito è gestito da Salvatore Stile, co-creatore del pacchetto FFTrees Python. Se hai commenti, suggerimenti o segnalazioni di bug da condividere, pubblica un problema su GitHub o inviami una email cliccando su una delle icone sottostanti.</p>
+    </main>
+
+    <!-- Nuova sezione con il box "Create" -->
+    <main class="create-box">
+        <h2>Create FFTS!</h2>
+        <p>Utilizza il pulsante qui sotto per iniziare:</p>
+        <a href="#" class="create-button">Create</a>
+    </main>
+
+    <footer>
+        &copy; 2023 Implementazione in Python di Fast&Frugal Trees
+    </footer>
+</body>
+</html>
+"""
 html_article = """
 <!DOCTYPE html>
 <html lang="en">
@@ -374,7 +485,8 @@ app_ui = app_ui = ui.page_fluid(
         ui.nav("HOME", HTML(html_home)),
         ui.nav("Intro", HTML(html_intro)),
         ui.nav("Data", ui.panel_sidebar(ui.output_ui("data_output"))),
-        ui.nav("Create", "tab a content"),
+        #ui.nav("Create", "tab a content"),
+        ui.nav("Create", HTML(html_create)),
         ui.nav("Visualize", "tab a content"),
         ui.nav("Article", HTML(html_article)),
         ui.nav("Learn", HTML(html_learn))

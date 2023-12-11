@@ -615,4 +615,3 @@ X_train_cancer, X_test_cancer, y_train_cancer, y_test_cancer = train_test_split(
 fftc = FastFrugalTreeClassifier()
 fftc.fit(X_train_cancer, y_train_cancer)
 print(fftc.score(X_test_cancer, y_test_cancer))
-print(fftc.in_words())
