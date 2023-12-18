@@ -393,7 +393,7 @@ html_create = """
     <main class="create-box">
         <h2>Create FFTS!</h2>
         <p>Utilizza il pulsante qui sotto per iniziare:</p>
-        <a href="#" class="create-button">Create</a>
+        <a href="#" id="create-button" class="create-button">Create</a>
     </main>
 
     <footer>
@@ -717,6 +717,22 @@ app_ui = app_ui = ui.page_fluid(
 def server(input, output, session):
     def data_output():
         ui.input_select("data_output", HTML("<i class='fa fa-table'></i> Choose a dataset"),["apple", "banana", "cherry", "date", "fig"])
+
+     # Definisci la funzione reattiva per eseguire fit() quando il pulsante viene premuto
+    @reactive
+    def run_fit():
+        # Aggiungi qui la logica necessaria per passare dati o parametri a fit() se necessario
+        result = fit()  # Chiamata alla tua funzione fit() nel file fasttrees.py
+        return result
+
+    # Aggiungi un osservatore che si attiva quando il pulsante "Create" viene premuto
+    @reactive
+    def observe_create_button():
+        req(input.create_button)  # Richiedi che il pulsante sia stato premuto
+        return run_fit()  # Esegui run_fit() quando il pulsante è stato premuto
+
+    # Rendi il risultato di run_fit() disponibile nell'output dell'applicazione
+    output.result = render(print, observe_create_button())
 
 
 # Combine into a shiny app.
