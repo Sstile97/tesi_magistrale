@@ -7,6 +7,10 @@ import seaborn as sns
 import shiny.experimental as x
 from shiny import App, Inputs, Outputs, Session, reactive, render, req, ui
 from htmltools import HTML
+from fasttrees import *
+
+print("FIRST LINE")
+
 
 # HTML content
 html_home = """
@@ -393,8 +397,20 @@ html_create = """
     <main class="create-box">
         <h2>Create FFTS!</h2>
         <p>Utilizza il pulsante qui sotto per iniziare:</p>
-        <a href="#" id="create-button" class="create-button">Create</a>
+        <button id="create-button" onclick="myFunction()" class="create-button">Create</button>
     </main>
+    <script>
+    function myFunction() {
+        // Imposta il contenuto dell'elemento con ID "demo"
+        document.getElementById("demo").innerHTML = "Hello World";
+
+        // Reindirizza la pagina a www.google.it
+        window.location.href = "http://www.google.it";
+    }
+
+    // Aggiungi un gestore di eventi al bottone
+    document.getElementById("create-button").addEventListener("click", myFunction);
+</script>
 
     <footer>
         &copy; 2023 Implementazione in Python di Fast&Frugal Trees
@@ -697,6 +713,43 @@ Phillips, N, D., Neth, Hansjörg, Woike, J. K., & Gaissmaier, W. (2017). FFTrees
 
 """
 
+html_prova= """
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestione Evento</title>
+</head>
+<body>
+
+<button id="myButton">Premi per gestire l'evento</button>
+
+<script>
+    // Aggiungi un gestore di eventi al bottone
+    document.getElementById("myButton").addEventListener("click", function() {
+
+    cancer = load_breast_cancer()
+
+    # Estrai le features e le etichette di classe
+    X_cancer, y_cancer = cancer.data, cancer.target
+
+    # Suddividi il dataset in set di addestramento e test
+    X_train_cancer, X_test_cancer, y_train_cancer, y_test_cancer = train_test_split(
+        X_cancer, y_cancer, test_size=0.4, random_state=42)
+
+        # Fit and test fitted tree
+        fftc = FastFrugalTreeClassifier()
+        fftc.fit(X_train_cancer, y_train_cancer)
+        print(fftc.score(X_test_cancer, y_test_cancer))
+        alert("Evento gestito");
+    });
+</script>
+
+</body>
+</html>
+"""
+
 # Part 1: ui ----
 app_ui = app_ui = ui.page_fluid(
     # style ----
@@ -709,7 +762,7 @@ app_ui = app_ui = ui.page_fluid(
         ui.nav("Create", HTML(html_create)),
         ui.nav("Visualize", HTML(html_visualize)),
         ui.nav("Article", HTML(html_article)),
-        ui.nav("Learn", HTML(html_learn))
+        ui.nav("Learn", HTML(html_prova))
     )
 )
 
@@ -717,22 +770,6 @@ app_ui = app_ui = ui.page_fluid(
 def server(input, output, session):
     def data_output():
         ui.input_select("data_output", HTML("<i class='fa fa-table'></i> Choose a dataset"),["apple", "banana", "cherry", "date", "fig"])
-
-     # Definisci la funzione reattiva per eseguire fit() quando il pulsante viene premuto
-    @reactive
-    def run_fit():
-        # Aggiungi qui la logica necessaria per passare dati o parametri a fit() se necessario
-        result = fit()  # Chiamata alla tua funzione fit() nel file fasttrees.py
-        return result
-
-    # Aggiungi un osservatore che si attiva quando il pulsante "Create" viene premuto
-    @reactive
-    def observe_create_button():
-        req(input.create_button)  # Richiedi che il pulsante sia stato premuto
-        return run_fit()  # Esegui run_fit() quando il pulsante è stato premuto
-
-    # Rendi il risultato di run_fit() disponibile nell'output dell'applicazione
-    output.result = render(print, observe_create_button())
 
 
 # Combine into a shiny app.
